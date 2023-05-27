@@ -28,33 +28,27 @@ static void Analog_sw(uint8_t sta)
 	if((sta & 0x07) == 0x00){// 2- 20
 		AmA0_SET;
 		AmA1_RESET;
-		DcA0_RESET;
-		DcA1_RESET;
+		
 	}
 	else if((sta & 0x07) == 0x01){
 		AmA0_RESET;
 		AmA1_RESET;
-		DcA0_RESET;
-		DcA1_RESET;
 	}
 	else if((sta & 0x07) == 0x02){
 		AmA0_RESET;
-		AmA1_RESET;
-		DcA0_SET;
-		DcA1_RESET;
+		AmA1_SET;
 	}
 	else if((sta & 0x07) == 0x03){
-		AmA0_RESET;
-		AmA1_RESET;
-		DcA0_RESET;
-		DcA1_SET;
+		AmA0_SET;
+		AmA1_SET;
+		
 	}
-	else if((sta & 0x07) == 0x04){
-		AmA0_RESET;
+	else if((sta & 0x07) == 0x04){// 2- 20
+		AmA0_SET;
 		AmA1_RESET;
-		DcA0_SET;
-		DcA1_SET;
+		
 	}
+
 }
 /********************************************************
   End Of File

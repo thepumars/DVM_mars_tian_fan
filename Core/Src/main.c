@@ -54,7 +54,7 @@ uint16_t adc_calc_res = 0;
 
 //state         0 0 0 0 0 0 0 0
 	//					 低三位为量程状态
-uint8_t state_manual = 0x01;
+uint8_t state_manual = 0x00;
 //state         0 0 0 0 0 0 0 0
 	//			最高位为模式切换		 低三位为量程状态
 extern TIM_HandleTypeDef htim1;
@@ -108,7 +108,7 @@ int main(void)
  HAL_ADC_Start_DMA(&hadc1,(uint32_t *)&adc_buffer,FILTER_NUM);
  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
  Lcd_Init();
-	LCD_LED_SET;//通过IO控制背光?
+	LCD_LED_SET;//通过IO控制背光
 	LCD_RST_SET;
 	Lcd_Clear(WHITE);
   /* USER CODE END 2 */

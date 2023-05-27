@@ -36,6 +36,7 @@ static void Sys_running(uint8_t* sta)
 	Hardware_Init.key_scan(sta);
 	Hardware_Init.judge_switch(sta);
 	Hardware_Init.lcd_running(sta);
+	Analog_sw_Init.Analog_sw(*sta);
 	
 	
 }
@@ -46,39 +47,39 @@ static void key_scan(uint8_t*state){
 	#else
 	uint8_t tmp = (*state)&0x07;
 	if(((*state)&0x80)== 0x00){
-	if(HAL_GPIO_ReadPin(CODER_L_GPIO_Port,CODER_L_Pin)== GPIO_PIN_SET){//暂时写的高电平上拉按键
+	if(HAL_GPIO_ReadPin(CODER_L_GPIO_Port,CODER_L_Pin)== GPIO_PIN_RESET){//暂时写的高电平上拉按键
 		HAL_Delay(20);
-		if(HAL_GPIO_ReadPin(CODER_L_GPIO_Port,CODER_L_Pin)==GPIO_PIN_SET){
+		if(HAL_GPIO_ReadPin(CODER_L_GPIO_Port,CODER_L_Pin)==GPIO_PIN_RESET){
 			
 			
 			if(tmp>0)
 				tmp--;
 			(*state) = ((*state) & 0xF8) | tmp;
 			
-			while(HAL_GPIO_ReadPin(CODER_L_GPIO_Port,CODER_L_Pin)==GPIO_PIN_SET);
+			while(HAL_GPIO_ReadPin(CODER_L_GPIO_Port,CODER_L_Pin)==GPIO_PIN_RESET);
 			
 		}
 	}
-//	if(HAL_GPIO_ReadPin(CODER_R_GPIO_Port,CODER_R_Pin)==GPIO_PIN_SET){
+	if(HAL_GPIO_ReadPin(CODER_R_GPIO_Port,CODER_R_Pin)==GPIO_PIN_RESET){
+		HAL_Delay(20);
+		if(HAL_GPIO_ReadPin(CODER_R_GPIO_Port,CODER_R_Pin)==GPIO_PIN_RESET){
+			
+			tmp++;
+			if(tmp>4)
+				tmp = 4;
+			 (*state) = ((*state) & 0xF8) | tmp;
+			
+			while(HAL_GPIO_ReadPin(CODER_R_GPIO_Port,CODER_R_Pin)==GPIO_PIN_RESET);
+			
+		}
+	}
+//	if(HAL_GPIO_ReadPin(CODER_SET_GPIO_Port,CODER_SET_Pin)==GPIO_PIN_RESET){
 //		HAL_Delay(20);
-//		if(HAL_GPIO_ReadPin(CODER_R_GPIO_Port,CODER_R_Pin)==GPIO_PIN_SET){
-//			
-//			tmp++;
-//			if(tmp>4)
-//				tmp = 4;
-//			 (*state) = ((*state) & 0xF8) | tmp;
-//			
-//			while(HAL_GPIO_ReadPin(CODER_R_GPIO_Port,CODER_R_Pin)==GPIO_PIN_SET);
-//			
-//		}
-//	}
-//	if(HAL_GPIO_ReadPin(CODER_SET_GPIO_Port,CODER_SET_Pin)==GPIO_PIN_SET){
-//		HAL_Delay(20);
-//		if(HAL_GPIO_ReadPin(CODER_SET_GPIO_Port,CODER_SET_Pin)==GPIO_PIN_SET){
+//		if(HAL_GPIO_ReadPin(CODER_SET_GPIO_Port,CODER_SET_Pin)==GPIO_PIN_RESET){
 //			
 //			 
 //			
-//			while(HAL_GPIO_ReadPin(CODER_SET_GPIO_Port,CODER_SET_Pin)==GPIO_PIN_SET);
+//			while(HAL_GPIO_ReadPin(CODER_SET_GPIO_Port,CODER_SET_Pin)==GPIO_PIN_RESET);
 //			
 //		}
 //	}
@@ -86,17 +87,17 @@ static void key_scan(uint8_t*state){
 	
 	}
 	
-		if(HAL_GPIO_ReadPin(AUTO_GPIO_Port,AUTO_Pin)==GPIO_PIN_SET){
-		HAL_Delay(20);
-		if(HAL_GPIO_ReadPin(AUTO_GPIO_Port,AUTO_Pin)==GPIO_PIN_SET){
-			if(((*state) & 0x80) == 0x80)
-			 (*state) = 0x00; 
-			else
-			 (*state) = 0x80;
-			while(HAL_GPIO_ReadPin(AUTO_GPIO_Port,AUTO_Pin)==GPIO_PIN_SET);
-			
-			}
-		}
+//		if(HAL_GPIO_ReadPin(AUTO_GPIO_Port,AUTO_Pin)==GPIO_PIN_RESET){
+//		HAL_Delay(20);
+//		if(HAL_GPIO_ReadPin(AUTO_GPIO_Port,AUTO_Pin)==GPIO_PIN_RESET){
+//			if(((*state) & 0x80) == 0x80)
+//			 (*state) = 0x00; 
+//			else
+//			 (*state) = 0x80;
+//			while(HAL_GPIO_ReadPin(AUTO_GPIO_Port,AUTO_Pin)==GPIO_PIN_RESET);
+//			
+//			}
+//		}
 	
 	
 
